@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using maximo_P1_A2.BLL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -26,6 +27,7 @@ namespace maximo_P1_A2
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddSingleton<ProductosBLL>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
