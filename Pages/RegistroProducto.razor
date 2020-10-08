@@ -1,0 +1,135 @@
+@page "/Productos"
+
+@inject IToastService Toast
+
+<EditForm Model="productos" OnValidSubmit="Guardar">
+	
+    <div class="container shadow-lg p-3 rb-5 bg-white rounded col-md-12">	
+		<div class="card">
+			<div class="card-header">
+				<h3>Registro de Productos</h3>
+			</div>
+			
+			<div class="card-body">
+				<div class="form-group">
+					<label>ID</label>					
+					<div class="input-group">
+						<InputNumber @bind-Value="productos.id" class="form-control"/>
+						<div class="input-group-append">
+							<button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
+						</div>
+					</div>	
+				</div>
+
+
+                <div class="form-group">
+					<label>Descripción</label>
+					<InputText @bind-Value="productos.descripcion" class="form-control"/>
+					<ValidationMessage For="@(() => productos.descripcion)"/>
+				</div>
+
+                <div class="form-group">
+					<label>Existencia</label>
+					<InputNumber @onchange="Inventario" @bind-Value="productos.existencia" class="form-control"/>
+					<ValidationMessage For="@(() => productos.existencia)"/>
+				</div>
+
+                <div class="form-group">
+					<label>Costo</label>
+					<InputNumber @onchange="Inventario" @bind-Value="productos.costo" class="form-control"/>
+					<ValidationMessage For="@(() => productos.costo)"/>
+				</div>
+
+                <div class="form-group">
+					<label>Valor de Inventario</label>
+					<input readonly @bind="productos.valorInventario" class="form-control"/>
+					
+				</div>
+
+            
+			
+                	                    <!--Buttons--->
+				
+                	<div class="form-group text-center" display: inline-block>
+					<div class="btn-group mr-5" role="group" aria-label="First group">
+						<button type="button" class="btn btn-outline-secondary" @onclick="Nuevo">Nuevo</button>
+					</div>
+						<div class="btn-group mr-5" role="group" aria-label="Second group">
+						<button type="submit" class="btn btn-outline-success">Guardar</button>
+					</div>
+					
+					<div class="btn-group" role="group" aria-label="Third group">
+						<button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    <DataAnnotationsValidator/>
+</EditForm>
+
+@code{
+    Productos productos = new Productos();
+
+    //[Parameter] public int #Id { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Nuevo();
+    }
+
+    private void Nuevo()
+    {
+        productos = new Productos();
+    }
+
+    private void Guardar()
+    {
+        bool guardado;
+
+        guardado = ProductosBLL.Guardar(productos);
+
+        if (guardado)
+        {
+            Nuevo();
+            Toast.ShowSuccess("Se ha Guardado Exitosamente");
+        }
+        else
+            Toast.ShowError("Error, no se pudo Guardar");
+    }
+
+    private void Buscar()
+    {
+         if (productos.id > 0)
+         {
+             var encontrado = ProductosBLL.Buscar(productos.id);
+             if (encontrado != null)
+             {
+                 productos = encontrado;
+				 Toast.ShowSuccess("Se ha Enconrado el producto");
+			 }
+             else
+                 Toast.ShowWarning("No se pudo localizar la Persona indicada");
+         }       
+    }
+
+    private void Eliminar()
+    {
+        bool elimino;
+
+        elimino = ProductosBLL.Eliminar(productos.id);
+
+        if (elimino)
+        {
+            Nuevo();
+            Toast.ShowSuccess("Se ha Eliminado Exitosamente");
+        }
+        else
+            Toast.ShowError("No se pudo localizar la Persona indicada");     
+    }
+
+
+    private void Inventario(){
+        productos.valorInventario = productos.costo * productos.existencia;
+    }
+}

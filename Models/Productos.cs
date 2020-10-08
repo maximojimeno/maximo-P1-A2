@@ -5,16 +5,6 @@ namespace maximo_P1_A2.Models
     public class Productos
     {
 
-        public Productos(){
-
-            id = 0;
-            descripcion = string.Empty;
-            existencia = 0;
-            costo = 0;
-            valorInventario = 0;
-
-        }
-
         [Key]
         public int id { get; set; }
 
