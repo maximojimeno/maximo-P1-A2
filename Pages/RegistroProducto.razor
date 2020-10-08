@@ -13,7 +13,7 @@
 			<div class="card-body">
 				<div class="form-group">
 					<label>ID</label>					
-					<div class="input-group">
+					<div class="input-group col-md-4">
 						<InputNumber @bind-Value="productos.id" class="form-control"/>
 						<div class="input-group-append">
 							<button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
@@ -22,25 +22,27 @@
 				</div>
 
 
-                <div class="form-group">
-					<label>Descripción</label>
+                <div class="form-group col-md-8">
+					
+                    <label>Descripción</label>
 					<InputText @bind-Value="productos.descripcion" class="form-control"/>
 					<ValidationMessage For="@(() => productos.descripcion)"/>
+
 				</div>
 
-                <div class="form-group">
+                <div class="form-group col-md-2">
 					<label>Existencia</label>
 					<InputNumber @bind-Value="productos.existencia" @onfocus="Inventario" class="form-control"/>
 					<ValidationMessage For="@(() => productos.existencia)"/>
 				</div>
 
-                <div class="form-group">
+                <div class="form-group col-md-2">
 					<label>Costo</label>
 					<InputNumber @bind-Value="productos.costo" @onfocus="Inventario" class="form-control"/>
 					<ValidationMessage For="@(() => productos.costo)"/>
 				</div>
 
-                <div class="form-group">
+                <div class="form-group col-md-2">
 					<label>Valor de Inventario</label>
 					<input  readonly  @bind="productos.valorInventario" class="form-control"/>
                      <ValidationMessage For="@(() => productos.valorInventario)" />
