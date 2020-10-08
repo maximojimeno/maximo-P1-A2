@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using maximo_P1_A2.Data;
 using maximo_P1_A2.Models;
 using Microsoft.EntityFrameworkCore;
@@ -124,6 +126,26 @@ namespace maximo_P1_A2.BLL
                 contexto.Dispose();
             }
             return producto;
+        }
+
+        public static List<Productos> GetList(Expression<Func<Productos,bool>>producto)
+        {
+            Contexto contexto = new Contexto();
+            List<Productos> Lista = new List<Productos>();
+
+            try
+            {
+                Lista = contexto.Productos.Where(producto).ToList();
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                contexto.Dispose();
+            }
+            return Lista;
         }
         
     }
